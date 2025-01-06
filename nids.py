@@ -23,7 +23,7 @@ def detect_intrusion(packet):# function detect the  intrusion
         if UDP in packet and packet[UDP].dport in suspicious_ports:# if that pavket is UDP
             log_alert(f"SUSPICIOUS UDP ACTIVITY DETECTED: {source_ip} -> {destination_ip} on port {packet[UDP].dport} ")#print the msg
 
-        if ARP in packet and packet[ARP].dport in suspicious_ports:# if that pavket is UDP
+        if ARP in packet and packet[ARP].dport in suspicious_ports:# if that pavket is ARP
             log_alert(f"SUSPICIOUS ARP ACTIVITY DETECTED: {source_ip} -> {destination_ip} on port {packet[ARP].dport} ")#print the msg
 
         if packet_size > max_package_size:#if packet size larger than max packet size
