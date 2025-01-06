@@ -1,7 +1,7 @@
-from scapy.all import sniff ,TCP,IP,UDP
+from scapy.all import sniff ,TCP,IP,UDP,ARP,Raw
 
-#Vulnerable ports  FTP, SSH, Telnet,SMTP,TCP, HTTP, HTTPS
-suspicious_ports = [21, 22, 23, 25, 80, 443, 8080]
+#Vulnerable ports  FTP, SSH, Telnet,TCP
+suspicious_ports = [21, 22, 23, 25, 80,219,443]
 max_package_size = 1500  #packet size
 alert_log = "nids_alerts.log" #create text file to save and update the file
 
@@ -23,6 +23,9 @@ def detect_intrusion(packet):# function detect the  intrusion
         if UDP in packet and packet[UDP].dport in suspicious_ports:# if that pavket is UDP
             log_alert(f"SUSPICIOUS UDP ACTIVITY DETECTED: {source_ip} -> {destination_ip} on port {packet[UDP].dport} ")#print the msg
 
+        if ARP in packet and packet[ARP].dport in suspicious_ports:# if that pavket is UDP
+            log_alert(f"SUSPICIOUS ARP ACTIVITY DETECTED: {source_ip} -> {destination_ip} on port {packet[ARP].dport} ")#print the msg
+
         if packet_size > max_package_size:#if packet size larger than max packet size
             log_alert(f"Largest packet detected from {source_ip} to {destination_ip}. size : {packet_size} bytes") #print the msg
 
@@ -36,4 +39,3 @@ if __name__ == "__main__":
         start_sniffer(interface = network_interface)#call the sniffer
     except KeyboardInterrupt:#'CTRL + C' to intrrupt the NIDS
         print("\nExiting NIDS....\nGood Bye\n")
-        
