@@ -33,7 +33,7 @@ def start_sniffer(interface = "Wi-Fi"):#define the sniffer defaultly initial int
     print(f"Starting packet sniffing on inferface: {interface}")
     sniff(iface = interface, prn = detect_intrusion, store = False)#assign the parameter
 
-if __name__ == "__main__":
+if __name__ == "__main__":# if the main function 
     try:
         network_interface = input("Enter the network interface to monitor (eg:eth0,Wi-Fi) : ")#input interface take user 
         start_sniffer(interface = network_interface)#call the sniffer
